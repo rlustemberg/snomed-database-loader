@@ -21,11 +21,11 @@ class Rf2_Folders:
     global snomedct_terminology_dir, relationship_config,release_format, config_file_suffix
     if rel_config not in ['Relationship','StatedRelationship']:
       raise ValueError('rel_config invalid [%s} -- must be Relationship or StatedRelationship' % rel_config)
-    supported_language_codes = ['en','en-us', 'en-GB', 'en-US']
+    supported_language_codes = ['en','en-us', 'en-GB', 'en-US', 'es']
     if language_code not in supported_language_codes:
       raise ValueError('language_code invalid [%s] -- supported list is %s' % (language_code, str(supported_language_codes)))
     self.language_code = language_code
-    supported_language_names = ['Language','USEnglish']
+    supported_language_names = ['Language','USEnglish','Español']
     if language_name not in supported_language_names:
       raise ValueError('language_name invalid [%s] -- supported list is %s' % (language_name, str(supported_language_names)))
     self.language_name = language_name
@@ -60,6 +60,8 @@ class Rf2_Folders:
       print(self.snomedct_terminology_dir)
       raise ValueError('*** Cant find/open concept file [%s] ***' % concept_fn)
     concept_fn_regex = 'sct2_Concept_'+self.release_type_root_folder_name+'_'+r'([^_]+)_([^\.]+)\.txt'
+    print('concept_fn_regex:'+concept_fn_regex)
+    print('concept_fn:'+concept_fn)
     m = re.match(concept_fn_regex, concept_fn)
     if not m:
       raise ValueError('Cant parse RF2 Concept filename -- [%s]' % concept_fn)

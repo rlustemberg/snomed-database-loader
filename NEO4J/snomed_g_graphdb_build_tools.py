@@ -160,7 +160,7 @@ def db_build(arglist):
   opt.add_option('--output_dir', action='store', default='.')
   opt.add_option('--relationship_file', action='store', default='Relationship')
   opt.add_option('--language_code', action='store', default='en',
-                 choices=['en','en-us', 'en-US', 'en-GB'])
+                 choices=['en','en-us', 'en-US', 'en-GB','es'])
   opt.add_option('--language_name', action='store', default='Language')
   opt.add_option('--prep_only', action='store_true')
   opts, args = opt.parse_args(arglist)
