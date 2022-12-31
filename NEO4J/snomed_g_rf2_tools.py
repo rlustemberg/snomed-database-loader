@@ -823,7 +823,6 @@ def find_rolegroups(arglist):
 #                           FIND_ROLENAMES                                   |
 #----------------------------------------------------------------------------|
 def find_rolenames(arglist):
-
   def rf2_filename(element, view=None): # rf2_folders is set in make_csv initialization
     return rf2_folders.rf2_file_path(element, view) # eg: 'concept'
 
