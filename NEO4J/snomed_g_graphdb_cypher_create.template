@@ -17,12 +17,12 @@ CREATE CONSTRAINT FOR (c:ObjectConcept) REQUIRE c.sctid IS UNIQUE;
   // Note: Can't have "FSN is UNIQUE"" constraint, can have dups (inactive concepts)
   //       for example -- "retired procedure" is FSN of multiple inactive concepts
 CREATE CONSTRAINT FOR (c:Description) REQUIRE c.id IS UNIQUE;
-CREATE INDEX ON :Description(sctid);
+CREATE INDEX FOR (x:Description) ON (x.sctid);
   // need index so setting HAS_DESCRIPTION edges doesn't stall
   // there can be more than one description for the same sctid, sctid not unique, but id is unique
 
 // ROLE_GROUP nodes.  Index needed for defining relationship assignment.
-CREATE INDEX ON :RoleGroup(sctid);
+CREATE INDEX FOR (x:RoleGroup) ON (x.sctid);
 
 // NEXT STEP -- create CONCEPT nodes
 
@@ -111,7 +111,7 @@ CALL {
         { nodetype:'rolegroup',
           sctid: line.sctid,
           rolegroup: line.rolegroup})
-} IN TRANSACTIONS OF 1000 ROWS;
+} IN TRANSACTIONS OF 500 ROWS;
 
 // Add edge in 2nd step, Java memory issue
 RETURN 'Creating HAS_ROLE_GROUP edges';
@@ -120,7 +120,7 @@ CALL {
     with line
     MATCH (c:ObjectConcept { sctid: line.sctid }), (rg:RoleGroup { sctid: line.sctid, rolegroup: line.rolegroup })
     MERGE (c)-[:HAS_ROLE_GROUP]->(rg)  
-} IN TRANSACTIONS OF 1000 ROWS;
+} IN TRANSACTIONS OF 500 ROWS;
 
 
 // --------------------------------------------------------------------------------------
