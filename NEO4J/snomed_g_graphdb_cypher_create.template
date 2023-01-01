@@ -30,7 +30,7 @@ RETURN 'Creating NEW ObjectConcept nodes';
 LOAD csv with headers from "<<<file_protocol>>><<<output_dir>>>concept_new.csv" as line
 CALL {
     with line
-    MERGE (n:ObjectConcept
+    CREATE (n:ObjectConcept
         { nodetype:           'concept',
           id:                 line.id,
           sctid:              line.id,
@@ -49,7 +49,7 @@ RETURN 'Creating NEW Description nodes';
 LOAD csv with headers from "<<<file_protocol>>><<<output_dir>>>descrip_new.csv" as line
 CALL {
     with line
-    MERGE (n:Description
+    CREATE (n:Description
         { nodetype:'description',
           id: line.id,
           sctid: line.sctid,
@@ -111,7 +111,7 @@ CALL {
         { nodetype:'rolegroup',
           sctid: line.sctid,
           rolegroup: line.rolegroup})
-} IN TRANSACTIONS OF 200 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // Add edge in 2nd step, Java memory issue
 RETURN 'Creating HAS_ROLE_GROUP edges';
@@ -120,7 +120,7 @@ CALL {
     with line
     MATCH (c:ObjectConcept { sctid: line.sctid }), (rg:RoleGroup { sctid: line.sctid, rolegroup: line.rolegroup })
     MERGE (c)-[:HAS_ROLE_GROUP]->(rg)  
-} IN TRANSACTIONS OF 500 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 
 // --------------------------------------------------------------------------------------
